@@ -1,9 +1,19 @@
 import huffman
 
 path = ""
-calling = huffman(path)
+h = huffman(path)
 
-output_path = calling.compress()
+# compress file on path
+output_path = h.compress()
 
+# encrypt file on path
 
-calling.decompress(output_path)
+# add noise on file
+
+# decrypt
+
+# decompress
+
+# correct
+
+h.decompress(output_path)
