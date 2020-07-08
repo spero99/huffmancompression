@@ -40,7 +40,7 @@ class Compressing:
 
     # taking 2 nodes ,sum it up,create  parent node an then add the 2 nodes as children
     def merge(self):
-        while (len(self.heap) > 1):
+        while len(self.heap) > 1:
             node1 = heapq.heappop(self.heap)
             node2 = heapq.heappop(self.heap)
             merging = heap_node(None, node1.frequency + node2.frequency)
@@ -94,7 +94,7 @@ class Compressing:
         filename, file_extension = os.path.splitext(self.path)
         output_file = filename + ".bin"
 
-        with open (self.path ,' r+') as file, open(output_file, 'wb') as output:
+        with open(self.path, 'r+') as file, open(output_file, 'wb') as output:
             file = file.read()
             file = file.rstrip()
             frequency = self.freq_dict(file)
@@ -105,5 +105,47 @@ class Compressing:
             padded_encoded_file = self.pad_encoded_text(encoded_text)
             b = self.byte_array(padded_encoded_file)
             output.write(bytes(b))
-        print ("Compression with huffman algoritmh complete")
+        print("Compression with huffman algoritmh complete")
         return output_file
+
+    def unpad_encoded_text(selfself, padded_encoded_text):
+        padded_info = padded_encoded_text[:8]
+        extra_padding = int(padded_info, 2)
+        padded_encoded_text = padded_encoded_text[8:]
+        encoded_text = padded_encoded_text[:-1*extra_padding]
+
+        return encoded_text
+
+    def decode(self, encoded_text):
+        current_code = ""
+        decoded_text = ""
+
+        for bit in encoded_text:
+            current_code += bit
+            if current_code in self.remapping:
+                char = self.remapping[current_code]
+                decoded_text += char
+                current_code = ""
+
+        return decoded_text
+
+    def decompress(self, input_path):
+        filename, file_extension = os.path.splitext(self.path)
+        output_path = filename + "_decompressed" + ".txt"
+
+        with open(input_path, 'rb') as file, open(output_path, 'w') as output:
+            string = ""
+            byte = file.read(1)
+            while(byte != ""):
+                byte = ord(byte)
+                bits = bin(byte)[2:].rjust(8, '0')
+                string += bits
+                byte = file.read(1)
+
+            encoded_text = self.unpad_encoded_text(string)
+            decompressed_text = self.decode(encoded_text)
+            output.write(decompressed_text)
+
+        print("decompression complete")
+        return output_path
+
