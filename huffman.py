@@ -9,12 +9,15 @@ class heap_node:
         self.left = None
         self.right = None
 
-    def __cmp__(self, other):
+    def __lt__(self, other):
+        return self.frequency < other.frequency
+
+    def __eq__(self, other):
         if other is None:
-            return -1
+            return False
         if not isinstance(other, heap_node):
-            return -1
-        return self.frequency > other.frequency
+            return False
+        return self.freq == other.freq
 
 
 class Compressing:
@@ -56,7 +59,7 @@ class Compressing:
             self.remapping[current_code] = root.character
             return
         self.code_function1(root.left, current_code + "0")
-        self.code_function1((root.right, current_code + "1"))
+        self.code_function1(root.right, current_code + "1")
 
     def create_code(self):
         root = heapq.heappop(self.heap)
@@ -136,7 +139,7 @@ class Compressing:
         with open(input_path, 'rb') as file, open(output_path, 'w') as output:
             string = ""
             byte = file.read(1)
-            while(byte != ""):
+            while len(byte) > 0:
                 byte = ord(byte)
                 bits = bin(byte)[2:].rjust(8, '0')
                 string += bits

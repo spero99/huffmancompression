@@ -1,11 +1,12 @@
 import os
 import random
 
+
 class Noisy:
     def __init__(self, path):
         self.path
 
-    def volume_it_up(self):
+    def volume_it_up(self, path):
         filename, file_extension = os.path.splitext(self.path)
         output = filename + "_withNoise" + ".bin"
 
@@ -13,4 +14,5 @@ class Noisy:
             file = file.read()
             for byte in file:
                 random_byte = random.getrandbits(8)
-                noised
+                noised_byte = byte ^ random_byte
+                output.write(noised_byte)
