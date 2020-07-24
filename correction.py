@@ -3,7 +3,7 @@ import os
 
 def encode_hamming(path):
     filename, file_extension = os.path.splitext(path)
-    output_file = filename + "ham_enc.txt"
+    output_file = filename + "_ham_enc.txt"
 
     with open(path, 'r+') as file, open (output_file, 'wb') as output:
         file = file.read()
@@ -47,7 +47,7 @@ def encode_hamming(path):
 
 def detect_error(path):
     filename, file_extension = os.path.splitext(path)
-    output_file = filename + "ham_enc_fix.txt"
+    output_file = "ham_enc_fix.txt"
 
     with open(path, 'r+') as file, open(output_file, 'wb') as output:
         file = file.read()
