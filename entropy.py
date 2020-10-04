@@ -2,32 +2,28 @@ import os
 import sys
 import math
 
-
-
+from Tools.scripts.objgraph import ignore
 
 
 def calculateEntropy(path):
     filename, file_extension = os.path.splitext(path)
 
-    with open(path, 'r+') as file:
-        byteArr = map(ord, file.read())
+    with open(path, 'rb',) as file:
+
+        binary_data = file.read()
         file.close()
-        fileSize = len(byteArr)
-        print ('File size in bytes:')
-        print (fileSize)
+        fileSize = len(list(binary_data))
 
 
     # calculate the frequency of each byte value in the file
     freqList = []
     for b in range(256):
         ctr = 0
-        for byte in byteArr:
+        for byte in binary_data:
             if byte == b:
                 ctr += 1
         freqList.append(float(ctr) / fileSize)
-    # print 'Frequencies of each byte-character:'
-    # print freqList
-    # print
+
 
     # Shannon entropy
     ent = 0.0
@@ -35,6 +31,4 @@ def calculateEntropy(path):
         if freq > 0:
             ent = ent + freq * math.log(freq, 2)
     ent = -ent
-    print ('Shannon entropy (min bits per byte-character):')
-    print (ent)
     return ent

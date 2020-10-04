@@ -3,9 +3,9 @@ import os
 
 def encode_hamming(path):
     filename, file_extension = os.path.splitext(path)
-    output_file = filename + "_ham_enc.txt"
+    output_file = filename + "_ham_enc.bin"
 
-    with open(path, 'r+') as file, open (output_file, 'wb') as output:
+    with open(path, 'rb') as file, open(output_file, 'w') as output:
         file = file.read()
     data = list(file)
     data.reverse()
@@ -42,14 +42,17 @@ def encode_hamming(path):
             ch += 1
 
     h.reverse()
-    output.write(''.join(map(str, h)))
+    a = ''.join(map(str, h))
+    a = a.encode()
+    with open(output_file, 'w') as output:
+        output.write(''.join(map(str, h)))
 
 
 def detect_error(path):
     filename, file_extension = os.path.splitext(path)
-    output_file = "ham_enc_fix.txt"
+    output_file = "ham_enc_fix.bin"
 
-    with open(path, 'r+') as file, open(output_file, 'wb') as output:
+    with open(path, 'rb') as file, open(output_file, 'wb') as output:
         file = file.read()
     data = list(file)
     data.reverse()
