@@ -4,4 +4,3 @@ Python script that compress a text file with huffman algorithm,encrypts it and t
 Papadas Alexandros P17095
 Karanasios Stathis P17041
 
-Simulation of noise : get the length of the file ,random number between 1-length gives us how many errors we get in the transport,then we get random postitions from 1-length (errorCount)times ,in every positions we add a random character 

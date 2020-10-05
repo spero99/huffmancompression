@@ -23,39 +23,39 @@ print("***************************")
 
 # prints info of compressed file
 print("*** After compression ***")
-print("AFTER COMPRESSION : File length : " + str(Path('compressedFile.bin').stat().st_size))
-print('AFTER COMPRESSION : Entropy  :' + str(calculateEntropy('compressedFile.bin')))
+print("AFTER COMPRESSION : File length : " + str(Path('1compressed.bin').stat().st_size))
+print('AFTER COMPRESSION : Entropy  :' + str(calculateEntropy('1compressed.bin')))
 
 print("***************************")
 
 # encrypt file on path
 print("encrypting")
-encode_hamming('compressedFile.bin')
+encode_hamming('1compressed.bin')
 print('encryption complete')
 print("***************************")
 
 # add noise on file
 print("simulating noise")
-#addnoise = Noisy('compressedFile_ham_enc.bin')
-#addnoise.volume_it_up('compressedFile_ham_enc.bin')
+#addnoise = Noisy('2encrypted.bin')
+#addnoise.volume_it_up('2encrypted.bin')
 print('noise added')
 print("***************************")
 
 # correction
 #print('decrypting file with noise')
-#detect_error('file_withNoise.bin')
+#detect_error('3noise.bin.bin')
 print('decrypting file without noise')
-detect_error('compressedFile_ham_enc.bin')
+detect_error('2encrypted.bin')
 
 print("***************************")
 
 # decompress
 print("decompressing")
-decompressed = h.decompress('ham_enc_fix.bin')
+decompressed = h.decompress('4decrypted.bin')
 
 print("*** file info after decompressing ***")
-print("file length after decompression: " + str(Path('decompressed.bin').stat().st_size))
-print('Entropy of compressed file is :' + str(calculateEntropy('decompressed.bin')))
+print("file length after decompression: " + str(Path('4decompressed.txt').stat().st_size))
+print('Entropy of compressed file is :' + str(calculateEntropy('4decompressed.txt')))
 
 
 # before and after length ,entropy ,test 2 times  calculate errors

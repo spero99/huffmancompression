@@ -18,7 +18,7 @@ class Noisy:
 
     def volume_it_up(self, path):
         filename, file_extension = os.path.splitext(self.path)
-        output = "file_withNoise" + ".bin"
+        output = "3noise.bin"
 
         with open(self.path, 'rb')as file, open(output, 'wb') as output:
             file = file.read()

@@ -104,7 +104,7 @@ class HuffmanCoding:
 
     def compress(self):
         filename, file_extension = os.path.splitext(self.path)
-        output_path = "compressedFile.bin"
+        output_path = "1compressed.bin"
 
         with open(self.path, 'r+') as file, open(output_path, 'wb') as output:
             text = file.read()
@@ -126,7 +126,8 @@ class HuffmanCoding:
 
     def remove_padding(self, padded_encoded_text):
         padded_info = padded_encoded_text[:8]
-        extra_padding = int(padded_info,2)
+
+        extra_padding = int(padded_info, 2)
 
         padded_encoded_text = padded_encoded_text[8:]
         encoded_text = padded_encoded_text[:-1*extra_padding]
@@ -149,7 +150,7 @@ class HuffmanCoding:
 
     def decompress(self, input_path):
         filename, file_extension = os.path.splitext(self.path)
-        output_path = "decompressed.txt"
+        output_path = "5decompressed.txt"
 
         with open(input_path, 'rb') as file, open(output_path, 'w') as output:
             bit_string = ""
