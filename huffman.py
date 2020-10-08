@@ -170,3 +170,6 @@ class HuffmanCoding:
 
         print("Decompressed")
         return output_path
+h = HuffmanCoding('file.txt')
+output_path = h.compress()
+h.decompress('1compressed.bin')
