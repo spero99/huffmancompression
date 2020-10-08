@@ -1,3 +1,4 @@
+import filecmp
 import os
 
 
@@ -7,6 +8,7 @@ def encode_hamming(path):
 
     with open(path, 'rb') as file, open(output_file, 'w') as output:
         file = file.read()
+        print(file)
     data = list(file)
     data.reverse()
     c, ch, j, r, h = 0, 0, 0, 0, []
@@ -44,6 +46,7 @@ def encode_hamming(path):
     h.reverse()
     a = ''.join(map(str, h))
     a = a.encode()
+
     with open(output_file, 'w') as output:
         output.write(''.join(map(str, h)))
 
@@ -56,8 +59,7 @@ def detect_error(path):
         file = file.read()
     data = list(file)
     data.reverse()
-    print('data')
-    print(data)
+
     c, ch, j, r, error, h, parity_list, h_copy = 0, 0, 0, 0, 0, [], [], []
 
     for k in range(0, len(data)):
@@ -66,9 +68,7 @@ def detect_error(path):
         h_copy.append(data[k])
         if p == (k + 1):
             c = c + 1
-    #dd
-    print('hcopy')
-    print( h_copy)
+
 
     for parity in range(0, (len(h))):
         ph = (2 ** ch)
@@ -88,8 +88,7 @@ def detect_error(path):
             parity_list.append(h[parity])
             ch += 1
     parity_list.reverse()
-    print('paritylist')
-    print(parity_list)
+
     error = sum(int(parity_list) * (2 ** i) for i, parity_list in enumerate(parity_list[::-1]))
 
     print('error:')
@@ -98,8 +97,8 @@ def detect_error(path):
     if error == 0:
         print('There is no error in the hamming code received')
 
-    #elif error >= len(h_copy):
-        #print('Error cannot be detected')
+    elif error >= len(h_copy):
+        print('Error cannot be detected')
 
     else:
         print('Error is in', error, 'bit')
@@ -111,6 +110,16 @@ def detect_error(path):
             h_copy[error - 1] = '0'
             print('After correction hamming code is:- ')
         h_copy.reverse()
-        print(h_copy)
-        print(''.join(map(str, h_copy)))
-        output.write(bytes(''.join(map(str, h_copy))))
+
+    x = ''.join(map(str, h_copy))
+    print(x)
+
+    with open(output_file, 'w') as output:
+        output.write(str(x))
+
+path= 'uncompressedFile'
+
+
+encode_hamming(path)
+detect_error('2encrypted.bin')
+#print(filecmp.cmp(path,'4decrypted.txt'))

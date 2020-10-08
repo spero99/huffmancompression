@@ -1,13 +1,11 @@
-from huffman import HuffmanCoding
-from correction import encode_hamming, detect_error
-from hammtest import hammingCodes, hammingCorrection
-import sys
-
-print('encrypting')
-encode_hamming('uncompressedFile')
-print('decrypting')
-detect_error('2encrypted.bin')
+path = 'uncompressedFile'
 
 
-
-
+#
+print(chr(49))
+#letters = []
+lettersbin= []
+#1for letter in data:
+  #  if letter not in letters:
+   #     letters.append(letter)
+#    3    lettersbin.append((letter ,ord(letter)))

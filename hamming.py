@@ -1,6 +1,10 @@
+import filecmp
 
-encrypted_file = "2encrypted.bin"
-decrypted_file = "4decrypted.bin"
+path = 'uncompressedFile'
+encrypted_file = "2encrypted1.bin"
+decrypted_file = "4decrypted1.bin"
+
+
 def parity_bits(bits):
     i = 0
     while 2 ** i <= bits + i:
@@ -33,9 +37,10 @@ def append_parity_bits(data):
     return list1
 
 
-def encode(path):
+def hamming_encode(path):
     with open(path, 'rb') as file:
         data = file.read()
+
     data = list(data)
     n = parity_bits(len(data))
     list1 = append_parity_bits(data)
@@ -45,27 +50,25 @@ def encode(path):
         k = 2 ** i
         j = 1
         total = 0
-        while j*k -1 <len(list1):
+        while j * k - 1 < len(list1):
             if j * k - 1 < len(list1):
-                lower_index = j*k-1
+                lower_index = j * k - 1
                 temp = list1[int(lower_index):len(list1)]
-            elif (j + 1) * k-1 <len(list1):
-                lower_index = j*k - 1
+            elif (j + 1) * k - 1 < len(list1):
+                lower_index = j * k - 1
                 temp = list1[int(lower_index):len(list1)]
-            elif(j+1)*k-1 < len(list1)-1:
-                lower_index = (j*k)-1
-                upper_index = (j*k)*k-1
+            elif (j + 1) * k - 1 < len(list1) - 1:
+                lower_index = (j * k) - 1
+                upper_index = (j * k) * k - 1
                 temp = list1[int(lower_index):int(upper_index)]
 
             total = total + sum(int(e) for e in temp)
 
             j += 2
 
-
         if total % 2 > 0:
-            list1[int(k)-1] = 1
+            list1[int(k) - 1] = 1
         i += 1
-
 
     with open(encrypted_file, 'w') as output:
         for bit in list1:
@@ -77,29 +80,29 @@ def encode(path):
     return list1
 
 
-def correct(path):
+def hamming_correct(path):
     with open(path, 'rb') as file:
         file = file.read()
     data = list(file)
     n = parity_bits_incode(len(data))
     i = 0
     list1 = list(data)
-    print(list1)
+
     errorbit = 0
     while i < n:
         k = 2 ** i
         j = 1
         total = 0
-        while j*k - 1 < len(list1):
-            if j *k -1 == len(list1) - 1:
-                lower_index = j*k - 1
+        while j * k - 1 < len(list1):
+            if j * k - 1 == len(list1) - 1:
+                lower_index = j * k - 1
                 temp = list1[int(lower_index):len(list1)]
-            elif (j+1) * k-1 >= len(list1):
-                lower_index = (j*k) - 1
-                temp = list1[int(lower_index):len(list1)]
-            elif (j+1)*k-1 < len(list1)-1:
+            elif (j + 1) * k - 1 >= len(list1):
                 lower_index = (j * k) - 1
-                upper_index = (j*1) * k - 1
+                temp = list1[int(lower_index):len(list1)]
+            elif (j + 1) * k - 1 < len(list1) - 1:
+                lower_index = (j * k) - 1
+                upper_index = (j * 1) * k - 1
                 temp = list1[int(lower_index):int(upper_index)]
 
             total = total + sum(int(e) for e in temp)
@@ -108,7 +111,6 @@ def correct(path):
         if total % 2 > 0:
             errorbit += k
         i += 1
-
 
     if errorbit >= 1:
         print("error in", errorbit, "bit ")
@@ -119,13 +121,13 @@ def correct(path):
             list1[int(errorbit - 1)] = 0
     else:
         print("no error")
-    print(list1[int(errorbit)])
+
     list2 = list()
     i = 0
     j = 0
     k = 0
     while i < len(list1):
-        if i != ((2**k)-1):
+        if i != ((2 ** k) - 1):
             temp = list1[int(i)]
             list2.append(temp)
             j += 1
@@ -133,9 +135,15 @@ def correct(path):
             k += 1
         i += 1
 
-    with open(decrypted_file, 'w') as output:
-        for item in list2:
-            x = str(list2[item])
+    list3 =list()
+    with open(decrypted_file, 'wb') as output:
+        for i in list2:
+            output.write(bytes(list2[i]))
 
-            output.write(x)
+
+
+
+#hamming_encode(path)
+#hamming_correct('2encrypted1.bin')
+#print(filecmp.cmp(path, decrypted_file))
 

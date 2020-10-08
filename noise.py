@@ -39,4 +39,5 @@ class Noisy:
                 random_byte = random_byte.encode()
                 output.write(random_byte)
                 position += 1
+
         return errorCounter
